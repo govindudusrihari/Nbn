@@ -23,7 +23,8 @@
   <button onclick="sendMessage()">Send</button>
 
   <script>
-    const apiKey = 'YOUR_API_KEY'; // **REPLACE WITH YOUR ACTUAL API KEY**
+    // **REPLACE WITH YOUR ACTUAL API KEY**
+    const apiKey = 'AIzaSyB3zVLrNM6XoHn_iQQ-ROQ2lkIOQIl1Jb0'; 
     const chatbox = document.getElementById('chatbox');
     const userInput = document.getElementById('user-input');
 
@@ -32,17 +33,13 @@
       displayMessage(userMessage, 'user');
       userInput.value = '';
 
-      fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' + AIzaSyB3zVLrNM6XoHn_iQQ-ROQ2lkIOQIl1Jb0, {
+      fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' + apiKey, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "contents": [{
-            "parts": [{
-              "text": userMessage
-            }]
-          }]
+          "prompt": userMessage // Use "prompt" instead of "contents"
         })
       })
       .then(response => response.json())

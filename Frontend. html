@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Mental Health Support Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div id="chat-container">
+      <div id="chatbox"></div>
+      <div id="input-area">
+        <input type="text" id="user-input" placeholder="Type your message here..." autofocus />
+        <button onclick="sendMessage()">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+    <script>
+      function sendMessage() {
+        const userMessage = $("#user-input").val();
+        displayMessage(userMessage, "user");
+        $("#user-input").val("");
+
+        $.ajax({
+          url: "/chat", //  API Endpoint (either FastAPI or Flask)
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ message: userMessage }),
+          success: function (data) {
+            displayMessage(data.response, "bot");
+          },
+          error: function (error) {
+            console.error("Error:", error);
+            displayMessage("An error occurred. Please try again later.", "bot");
+          },
+        });
+      }
+      // ... (rest of the HTML/JS from the previous example)
+    </script>
+  </body>
+</html>

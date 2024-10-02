@@ -1,0 +1,26 @@
+from flask import Flask, request, jsonify
+from allennlp.predictors.predictor import Predictor
+from allennlp.models.archival import load_archive
+
+app = Flask(__name__)
+
+# Load your pre-trained AllenNLP model
+archive = load_archive('path/to/your/trained/model.tar.gz')  # Replace with actual path
+predictor = Predictor.from_archive(archive)
+
+@app.route('/classify', methods=['POST'])
+def classify_handler():
+    try:
+        user_message = request.get_json()['message']
+        if not user_message:
+            return jsonify({'error': 'Missing message'}), 400
+
+        prediction = predictor.predict(user_message)
+        category = prediction['label']
+        return jsonify({'category': category})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)

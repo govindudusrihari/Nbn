@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Mental Health Support Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div id="chat-container">
+      <div id="chatbox"></div>
+      <div id="input-area">
+        <input type="text" id="user-input" placeholder="Type your message here..." autofocus />
+        <button onclick="sendMessage()">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+    <script>
+      function sendMessage() {
+        const userMessage = $("#user-input").val();
+        displayMessage(userMessage, "user");
+        $("#user-input").val("");
+
+        $.ajax({
+          url: "http://127.0.0.1:5000/chat", //  Replace with your actual API URL
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ message: userMessage }),
+          success: function (data) {
+            displayMessage(data.response, "bot");
+          },
+          error: function (error) {
+            console.error("Error:", error);
+            displayMessage("An error occurred. Please try again later.", "bot");
+          },
+        });
+      }
+
+      function displayMessage(message, sender) {
+        const chatbox = $("#chatbox");
+        const messageElement = $('<div class="message ' + sender + '">');
+        messageElement.text(message);
+        chatbox.append(messageElement);
+        chatbox.scrollTop(chatbox[0].scrollHeight);
+      }
+    </script>
+  </body>
+</html>

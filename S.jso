@@ -1,0 +1,36 @@
+// ... (Your existing JavaScript code) ...
+
+function sendMessage() {
+  const userMessage = messageInput.value.trim();
+  // ... (Your existing code) ...
+
+  if (userMessage !== '') {
+    displayMessage('user', userMessage);
+    messageInput.value = ''; // Clear input field
+
+    // Check if user typed "hi"
+    if (userMessage.toLowerCase() === 'hi') {
+      displayMessage('bot', 'Breathe in, breathe out.'); 
+    } else { 
+      // Send message to the server (using AJAX or fetch API)
+      // Replace this with your actual server communication logic
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: userMessage })
+      })
+      .then(response => response.json())
+      .then(data => {
+        displayMessage('bot', data.message); 
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+        displayMessage('bot', 'Sorry, I am unable to process your request right now.');
+      });
+    }
+  }
+}
+
+// ... (Rest of your JavaScript code) ...

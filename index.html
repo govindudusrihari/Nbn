@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Mental Health Support Chatbot</title>
+  <style>
+    #chatbox {
+      width: 400px;
+      height: 300px;
+      border: 1px solid #ccc;
+      overflow-y: scroll;
+      margin: 20px auto;
+    }
+    #user-input {
+      width: 300px;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Mental Health Support Chatbot</h1>
+  <div id="chatbox"></div>
+  <input type="text" id="user-input" placeholder="Type your message here...">
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const apiKey = 'YOUR_API_KEY'; // **REPLACE WITH YOUR ACTUAL API KEY**
+    const chatbox = document.getElementById('chatbox');
+    const userInput = document.getElementById('user-input');
+
+    function sendMessage() {
+      const userMessage = userInput.value;
+      displayMessage(userMessage, 'user');
+      userInput.value = '';
+
+      fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' + apiKey, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "contents": [{
+            "parts": [{
+              "text": userMessage
+            }]
+          }]
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const botReply = data.candidates[0].content;
+        displayMessage(botReply, 'bot');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        displayMessage('An error occurred. Please try again later.', 'bot');
+      });
+    }
+
+
+    function displayMessage(message, sender) {
+      const messageElement = document.createElement('p');
+      messageElement.textContent = message;
+      messageElement.classList.add(sender);
+      chatbox.appendChild(messageElement);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+  </script>
+</body>
+</html>

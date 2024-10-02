@@ -1,0 +1,26 @@
+from flask import Flask, request, jsonify
+from transformers import pipeline
+import tensorflow_text as tf_text
+
+app = Flask(__name__)
+
+# Load your Hugging Face model 
+# (replace 'distilbert-base-uncased-finetuned-mrpc' with your model name)
+classifier = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-mrpc")
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json['message']
+
+    # Preprocess using TensorFlow Text
+    preprocessed_message = tf_text.normalize_utf8(user_message)
+    preprocessed_message = tf_text.case_fold(preprocessed_message)  # Convert to lowercase
+
+    # Process the message with Hugging Face
+    response = classifier(preprocessed_message.numpy())
+
+    # Send the response back to the frontend
+    return jsonify({'response': response})
+
+if __name__ == '__main__':
+    app.run(debug=True)

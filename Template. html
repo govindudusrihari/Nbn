@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Mental Health Support Chatbot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    #chat-container {
+      width: 600px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;  /* Prevents chat content from overflowing */
+    }
+
+
+    #chatbox {
+        height: 400px;
+        overflow-y: scroll;
+        padding: 20px;
+        border-bottom: 1px solid #ccc; /* Adds a separator line above input */
+    }
+
+    .message {
+        margin-bottom: 15px;
+    }
+
+    .user .message-text{
+      background-color: #e1ffc7;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    .bot .message-text {
+      background-color: #dcf8c6; /* Greenish background for bot messages*/
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    #user-input {
+        width: calc(100% - 60px); /* Adjusted to account for button */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+        box-sizing:border-box;
+
+    }
+
+    #input-area {
+      display: flex;
+      padding: 10px; /* Add some padding around the input area*/
+      align-items:center;
+
+    }
+
+    button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor:pointer;
+    }
+
+    button:hover {
+       opacity:0.8;
+    }
+  </style>
+
+</head>
+
+<body>
+
+
+<div id="chat-container">
+  <div id="chatbox"></div>
+   <div id="input-area">
+     <input type="text" id="user-input" placeholder="Type your message here..." autofocus>  
+     <button onclick="sendMessage()"> <i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+ </div>
+
+  <script>
+   // ... (rest of JavaScript code from the previous example)
+  </script>
+
+
+</body>
+
+</html>

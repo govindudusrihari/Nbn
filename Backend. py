@@ -1,0 +1,23 @@
+from flask import Flask, request, jsonify
+from transformers import pipeline
+
+app = Flask(__name__)
+
+# Load your Hugging Face model
+classifier = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-mrpc")
+
+@app.route('/chat', methods=['POST'])
+def chat_handler():
+    try:
+        user_message = request.get_json()['message']
+        if not user_message:
+            return jsonify({'error': 'Missing message'}), 400
+
+        response = classifier(user_message)
+        return jsonify({'response': response})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)

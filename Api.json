@@ -2,3 +2,25 @@ curl \
   -H 'Content-Type: application/json' \
   -d '{"contents":[{"parts":[{"text":"Explain how AI works"}]}]}' \
   -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyB3zVLrNM6XoHn_iQQ-ROQ2lkIOQIl1Jb0'
+from google.cloud import aiplatform
+
+# Replace with your project ID and API key
+project_id = 'your-project-id'
+api_key = 'AIzaSyB3zVLrNM6XoHn_iQQ-ROQ2lkIOQIl1Jb0'
+
+# Create an Endpoint
+endpoint = aiplatform.gapic.EndpointServiceClient()
+
+# Instantiate the Endpoint for Gemini-1.5-Flash-Latest
+endpoint_name = 'projects/' + project_id + '/locations/us-central1/endpoints/gemini-1.5-flash-latest'
+
+# Set your prompt
+text_input = {"parts": [{"text": "Explain how AI works"}]}
+
+# Call the Endpoint's predict() method for text generation
+response = endpoint.predict(endpoint=endpoint_name, instances=[text_input])
+
+# Extract and print the generated text
+print(response.predictions[0]['content']) 
+pip install google-cloud-aiplatform
+pip show google-cloud-aiplatform
